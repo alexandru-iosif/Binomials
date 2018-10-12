@@ -561,12 +561,12 @@ monomialParameterization = I ->(
     imageDimension := rank exponentMatrix_{0..(numColumns exponentMatrix-2)};
     i := 0;
     while (imageDimension =!= numRows exponentMatrix) do (
-        if rank submatrix'(exponentMatrix,{i},) == imageDimension then (
-            exponentMatrix = submatrix'(exponentMatrix,{i},);
-            i = i-1;
+    	if rank (submatrix'(exponentMatrix,{i},))_{0..(numColumns matrix exponentList-2)} == imageDimension then (
+	    exponentMatrix = (submatrix'(exponentMatrix,{i},));
+	    i = i-1;
 	    );
-        i = i+1;
-        );
+    	i = i+1;
+    	);
     r := numRows exponentMatrix;
     v := symbol v;
     S := R[v_1..v_r,MonomialOrder => Lex];
@@ -587,8 +587,8 @@ monomialParameterization = I ->(
     -- construct the Laurent polynomial ring by hand.
     numv := numColumns solution-r;
     G := K[tt_1..tt_numv, ti_1..ti_numv];
-    posvars := unique (gens G)_{0, numv-1};  -- unique solves the case L_{0,0};
-    invvars := unique (gens G)_{numv, 2*numv-1};
+    posvars := unique (gens G)_{0..numv-1};  -- unique solves the case L_{0,0};
+    invvars := unique (gens G)_{numv..2*numv-1};
     laurentRels := ideal for i from 1 to (numColumns solution-r) list tt_i*ti_i - 1;
     H := G/laurentRels;
     charValues := flatten entries sub(sub(vars S, storeVarMap),K);
@@ -2368,6 +2368,11 @@ assert (ker monomialParameterization I == I)
 K = frac(QQ[a,b])
 R = K[x,y]
 I = ideal(a*x-b*y)
+assert (ker monomialParameterization I == I)
+
+R = QQ[a,b,c,d,e,f]
+A = matrix {{1,1,1,1,1,1},{1,2,3,5,7,11},{1,2,4,6,8,10}}
+I = toricMarkov_A R
 assert (ker monomialParameterization I == I)
 ///
 
