@@ -380,6 +380,7 @@ isBinomial Ideal := Ideal => o -> I -> (
     if not o#GroebnerFree then return isBinomialGroebner I;
 
     isB := (isBinomialGroebnerFree I)#0;
+    if isB then return isB;
     if isHomogeneous I then return isB;
     if not isB then
        print "Gröbner free method failed.\nStarting computation of Gröbner basis...\n";
