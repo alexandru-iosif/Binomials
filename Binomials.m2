@@ -533,8 +533,9 @@ monomialParameterization = I ->(
     if not char R == 0 then eligible = false;
     if not isBinomial I then eligible = false;
     if not binomialIsPrime I then eligible = false;
+    if dim I == 0 then eligible = false;
     if not eligible then (
-        error "Sorry, only implemented for prime binomial ideals in characteristic zero";
+        error "Sorry, only implemented for prime binomial ideals of dimension greater than zero in characteristic zero.";
         );
 
     n := numgens R;
@@ -587,9 +588,6 @@ monomialParameterization = I ->(
     -- polynomial rings are not implemented yet.  Therefore we
     -- construct the Laurent polynomial ring by hand.
     numv := numColumns solution-r;
-    if (numv == 0) then (
-	error "The variety of this ideal contains only one point. Please use another method to compute that point.";
-	);
     G := K[tt_1..tt_numv, ti_1..ti_numv];
     posvars := unique (gens G)_{0..numv-1};  -- unique solves the case L_{0,0};
     invvars := unique (gens G)_{numv..2*numv-1};
